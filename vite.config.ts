@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  base: '/',  // Root domain for GitHub Pages
+  base: '/gitstore.dev/',  // GitHub Pages subdirectory path
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
