@@ -173,7 +173,7 @@ description: "Task list for GitStore.dev Coming Soon Landing Page"
 - [ ] T067 [P] Test mobile responsive design on 375px width (Chrome DevTools device emulation)
 - [ ] T068 [P] Test mobile responsive design on 768px width (tablet)
 - [ ] T069 [P] Test desktop responsive design on 1024px+ width
-- [ ] T070 [P] Run Lighthouse audit and verify 90+ score (performance, accessibility, best practices, SEO)
+- [ ] T070 [P] Run Lighthouse audit and verify 90+ score in all categories (performance, accessibility, best practices, SEO)
 - [ ] T071 [P] Verify page load time <3s on 3G network throttling (Chrome DevTools)
 - [ ] T072 [P] Verify bundle size <100KB after production build (npm run build output)
 - [ ] T073 Run Playwright end-to-end test (npm run test:e2e) and verify all tests pass

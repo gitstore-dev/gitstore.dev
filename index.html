@@ -55,6 +55,41 @@
           Built for developers, AI agents, and store operators
         </p>
 
+        <!-- Git Workflows Explainer (US3) -->
+        <div class="mx-auto mb-12 max-w-2xl space-y-6 text-left">
+          <div>
+            <h2 class="mb-3 text-xl font-semibold text-neutral-900">How Git Workflows Transform E-commerce</h2>
+            <p class="text-base leading-relaxed text-neutral-700">
+              GitStore enables managing product catalogs using git workflows. Branch for experimental changes,
+              merge approved updates, and roll back errors instantly—just like managing code.
+            </p>
+          </div>
+
+          <div class="grid gap-4 md:grid-cols-2">
+            <!-- Technical Benefits -->
+            <div class="rounded-lg bg-white p-4 shadow-sm">
+              <h3 class="mb-2 text-base font-semibold text-neutral-900">For Developers & AI Agents</h3>
+              <ul class="space-y-1 text-sm text-neutral-700">
+                <li>• Full version control for product data</li>
+                <li>• Collaborate with pull requests</li>
+                <li>• Complete audit trail of changes</li>
+                <li>• API-first architecture for automation</li>
+              </ul>
+            </div>
+
+            <!-- Business Benefits -->
+            <div class="rounded-lg bg-white p-4 shadow-sm">
+              <h3 class="mb-2 text-base font-semibold text-neutral-900">For Store Operators</h3>
+              <ul class="space-y-1 text-sm text-neutral-700">
+                <li>• Safe experimentation with branches</li>
+                <li>• Easy rollback of mistakes</li>
+                <li>• Track all catalog changes</li>
+                <li>• Seasonal updates without risk</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
         <!-- Email Signup Form -->
         <div class="mx-auto max-w-md rounded-xl bg-white p-8 shadow-lg">
           <form id="signup-form" class="space-y-4">
@@ -71,6 +106,8 @@
                 name="email"
                 placeholder="your@email.com"
                 required
+                aria-label="Email address"
+                aria-describedby="email-error"
                 class="w-full rounded-lg border-2 border-neutral-100 px-4 py-3 text-base transition-colors placeholder:text-neutral-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary-light"
               />
               <p id="email-error" class="mt-2 hidden text-sm text-error"></p>
@@ -88,6 +125,7 @@
             <button
               type="submit"
               id="submit-btn"
+              aria-label="Sign up for early access to GitStore"
               class="w-full rounded-lg bg-primary px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary-light disabled:cursor-not-allowed disabled:bg-neutral-400"
             >
               Sign up for early access
