@@ -8,13 +8,13 @@
 Build a single-page coming soon website for GitStore (a git-optimized e-commerce engine) featuring:
 - "Coming Soon" hero message with value proposition
 - Email signup form for early adopters with honeypot protection
-- GitHub repository link (to OSS project: `gitstore-dev/gitstore`)
+- GitHub repository link (to OSS project: `gitstore-dev/GitStore`)
 - Dual audience messaging (primary: developers/AI agents; secondary: business users)
 - Responsive design, 3-second load time target
 
 **Repository Context**:
 - **This Project**: `gitstore-dev/gitstore.dev` (landing page/website)
-- **OSS Project**: `gitstore-dev/gitstore` (the e-commerce engine, linked from page)
+- **OSS Project**: `gitstore-dev/GitStore` (the e-commerce engine, linked from page)
 - **MCP Tools Available**: Stitch MCP (design system), GitHub MCP (OSS project access)
 
 Technical approach: Static site built with Vite + TailwindCSS, designed with Google Stitch (via MCP), deployed to GitHub Pages via GitHub Actions on merge to main.
