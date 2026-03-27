@@ -1,0 +1,32 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#f9fafb"/>
+
+  <!-- Subtle pattern -->
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+
+  <!-- Content container -->
+  <g>
+    <!-- Coming Soon badge -->
+    <rect x="475" y="180" width="250" height="40" rx="20" fill="#dbeafe"/>
+    <text x="600" y="205" font-family="Inter, sans-serif" font-size="16" font-weight="600" fill="#2563eb" text-anchor="middle">COMING SOON</text>
+
+    <!-- GitStore heading -->
+    <text x="600" y="280" font-family="Inter, sans-serif" font-size="72" font-weight="700" fill="#111827" text-anchor="middle">GitStore</text>
+
+    <!-- Tagline -->
+    <text x="600" y="340" font-family="Inter, sans-serif" font-size="32" font-weight="500" fill="#374151" text-anchor="middle">E-commerce for Git Workflows</text>
+
+    <!-- Description -->
+    <text x="600" y="410" font-family="Inter, sans-serif" font-size="20" fill="#6b7280" text-anchor="middle">Branch, merge, and roll back product catalog changes</text>
+    <text x="600" y="445" font-family="Inter, sans-serif" font-size="20" fill="#6b7280" text-anchor="middle">Built for developers, AI agents, and store operators</text>
+
+    <!-- URL -->
+    <text x="600" y="530" font-family="Inter, sans-serif" font-size="24" font-weight="500" fill="#2563eb" text-anchor="middle">gitstore.dev</text>
+  </g>
+</svg>
