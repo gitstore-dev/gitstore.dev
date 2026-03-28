@@ -29,20 +29,20 @@ description: "Task list for GitStore.dev Coming Soon Landing Page"
 
 **Purpose**: Project initialization and basic structure
 
-- [ ] T001 Initialize Node.js project with package.json in repository root
-- [ ] T002 [P] Install Vite 5.x as build tool dependency
-- [ ] T003 [P] Install TypeScript 5.x and configure tsconfig.json in repository root
-- [ ] T004 [P] Install TailwindCSS 3.x and PostCSS dependencies
-- [ ] T005 [P] Install Prettier for code formatting
-- [ ] T006 Create vite.config.ts in repository root with base path configuration for GitHub Pages
-- [ ] T007 Create tailwind.config.ts in repository root with custom colors from design.md
-- [ ] T008 Create postcss.config.js in repository root for TailwindCSS processing
-- [ ] T009 Create .prettierrc.json in repository root with formatting rules
-- [ ] T010 Create .gitignore file excluding node_modules, dist, and .env
-- [ ] T011 Create src/ directory structure: src/lib/ subdirectory
-- [ ] T012 Create public/ directory for static assets
-- [ ] T013 Create tests/e2e/ directory structure
-- [ ] T014 Create .github/workflows/ directory for GitHub Actions
+- [X] T001 Initialize Node.js project with package.json in repository root
+- [X] T002 [P] Install Vite 5.x as build tool dependency
+- [X] T003 [P] Install TypeScript 5.x and configure tsconfig.json in repository root
+- [X] T004 [P] Install TailwindCSS 3.x and PostCSS dependencies
+- [X] T005 [P] Install Prettier for code formatting
+- [X] T006 Create vite.config.ts in repository root with base path configuration for GitHub Pages
+- [X] T007 Create tailwind.config.ts in repository root with custom colors from design.md
+- [X] T008 Create postcss.config.js in repository root for TailwindCSS processing
+- [X] T009 Create .prettierrc.json in repository root with formatting rules
+- [X] T010 Create .gitignore file excluding node_modules, dist, and .env
+- [X] T011 Create src/ directory structure: src/lib/ subdirectory
+- [X] T012 Create public/ directory for static assets
+- [X] T013 Create tests/e2e/ directory structure
+- [X] T014 Create .github/workflows/ directory for GitHub Actions
 
 ---
 
@@ -52,14 +52,14 @@ description: "Task list for GitStore.dev Coming Soon Landing Page"
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T015 Create src/styles.css with TailwindCSS imports (@tailwind base, components, utilities)
-- [ ] T016 Create .env.example file documenting VITE_FORMSPREE_FORM_ID variable
-- [ ] T017 Install Playwright for end-to-end testing
-- [ ] T018 Create playwright.config.ts in repository root with test configuration
-- [ ] T019 Create CNAME file in public/ directory with content "gitstore.dev" for custom domain
-- [ ] T020 Create placeholder favicon.ico in public/ directory
-- [ ] T021 Create .github/workflows/deploy.yml with GitHub Pages deployment workflow per research.md
-- [ ] T022 Configure npm scripts in package.json (dev, build, preview, test:e2e)
+- [X] T015 Create src/styles.css with TailwindCSS imports (@tailwind base, components, utilities)
+- [X] T016 Create .env.example file documenting VITE_FORMSPREE_FORM_ID variable
+- [X] T017 Install Playwright for end-to-end testing
+- [X] T018 Create playwright.config.ts in repository root with test configuration
+- [X] T019 Create CNAME file in public/ directory with content "gitstore.dev" for custom domain
+- [X] T020 Create placeholder favicon.ico in public/ directory
+- [X] T021 Create .github/workflows/deploy.yml with GitHub Pages deployment workflow per research.md
+- [X] T022 Configure npm scripts in package.json (dev, build, preview, test:e2e)
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -73,15 +73,15 @@ description: "Task list for GitStore.dev Coming Soon Landing Page"
 
 ### Implementation for User Story 1
 
-- [ ] T023 [P] [US1] Create index.html in repository root with semantic HTML structure (main, section elements)
-- [ ] T024 [P] [US1] Add hero section markup to index.html with "Coming Soon" badge, heading, subheading, value proposition per design.md
-- [ ] T025 [P] [US1] Add audience tag to index.html: "Built for developers, AI agents, and store operators"
-- [ ] T026 [P] [US1] Add meta tags to index.html: title, description, Open Graph tags for social sharing
-- [ ] T027 [P] [US1] Apply TailwindCSS utility classes to hero section following design.md specifications (spacing, typography, colors)
-- [ ] T028 [P] [US1] Add responsive breakpoints to hero section (mobile-first: text-4xl → md:text-5xl → lg:text-6xl)
-- [ ] T029 [US1] Create src/main.ts as application entry point, import styles.css
-- [ ] T030 [US1] Link src/main.ts to index.html via script tag with type="module"
-- [ ] T031 [US1] Test page load in dev server (npm run dev) and verify <3s load time target
+- [X] T023 [P] [US1] Create index.html in repository root with semantic HTML structure (main, section elements)
+- [X] T024 [P] [US1] Add hero section markup to index.html with "Coming Soon" badge, heading, subheading, value proposition per design.md
+- [X] T025 [P] [US1] Add audience tag to index.html: "Built for developers, AI agents, and store operators"
+- [X] T026 [P] [US1] Add meta tags to index.html: title, description, Open Graph tags for social sharing
+- [X] T027 [P] [US1] Apply TailwindCSS utility classes to hero section following design.md specifications (spacing, typography, colors)
+- [X] T028 [P] [US1] Add responsive breakpoints to hero section (mobile-first: text-4xl → md:text-5xl → lg:text-6xl)
+- [X] T029 [US1] Create src/main.ts as application entry point, import styles.css
+- [X] T030 [US1] Link src/main.ts to index.html via script tag with type="module"
+- [X] T031 [US1] Test page load in dev server (npm run dev) and verify <3s load time target
 
 **Checkpoint**: At this point, User Story 1 should be fully functional - visitors see coming soon message with value proposition
 
@@ -97,25 +97,25 @@ description: "Task list for GitStore.dev Coming Soon Landing Page"
 
 > **NOTE: Critical user journey test only - aligned with "Test What Matters" principle**
 
-- [ ] T032 [US2] Create tests/e2e/signup.spec.ts with Playwright test for email signup happy path (fill email, submit, verify success message)
+- [X] T032 [US2] Create tests/e2e/signup.spec.ts with Playwright test for email signup happy path (fill email, submit, verify success message)
 
 ### Implementation for User Story 2
 
-- [ ] T033 [P] [US2] Create src/lib/validation.ts with email format validation function (RFC 5322 regex)
-- [ ] T034 [P] [US2] Create src/lib/honeypot.ts with honeypot field detection logic
-- [ ] T035 [P] [US2] Add email signup form markup to index.html with label, input, submit button per design.md
-- [ ] T036 [P] [US2] Add honeypot field to form in index.html (hidden via CSS: position absolute, left -5000px, tabindex -1)
-- [ ] T037 [P] [US2] Apply TailwindCSS styling to form components per design.md (white background, shadow, border-radius, focus states)
-- [ ] T038 [P] [US2] Add success message container to index.html (hidden by default, shown after successful submission)
-- [ ] T039 [P] [US2] Add error message container to index.html (hidden by default, shown on validation error or service unavailability)
-- [ ] T040 [US2] Implement form submission handler in src/main.ts: validate email, check honeypot, POST to Formspree API per contracts/form-api.md
-- [ ] T041 [US2] Add form state management in src/main.ts: disable button during submission, show loading state ("Sending...")
-- [ ] T042 [US2] Add success response handler in src/main.ts: hide form, show success message, clear form state
-- [ ] T043 [US2] Add error response handler in src/main.ts: show error message (graceful degradation per clarifications), keep form enabled
-- [ ] T044 [US2] Add client-side validation feedback in src/main.ts: invalid email shows error below input field
-- [ ] T045 [US2] Create Formspree account and configure form with notification email per quickstart.md
-- [ ] T046 [US2] Update .env file with actual VITE_FORMSPREE_FORM_ID from Formspree dashboard
-- [ ] T047 [US2] Test form submission end-to-end: valid email, invalid email, honeypot filled, service unavailable (mock 503)
+- [X] T033 [P] [US2] Create src/lib/validation.ts with email format validation function (RFC 5322 regex)
+- [X] T034 [P] [US2] Create src/lib/honeypot.ts with honeypot field detection logic
+- [X] T035 [P] [US2] Add email signup form markup to index.html with label, input, submit button per design.md
+- [X] T036 [P] [US2] Add honeypot field to form in index.html (hidden via CSS: position absolute, left -5000px, tabindex -1)
+- [X] T037 [P] [US2] Apply TailwindCSS styling to form components per design.md (white background, shadow, border-radius, focus states)
+- [X] T038 [P] [US2] Add success message container to index.html (hidden by default, shown after successful submission)
+- [X] T039 [P] [US2] Add error message container to index.html (hidden by default, shown on validation error or service unavailability)
+- [X] T040 [US2] Implement form submission handler in src/main.ts: validate email, check honeypot, POST to Formspree API per contracts/form-api.md
+- [X] T041 [US2] Add form state management in src/main.ts: disable button during submission, show loading state ("Sending...")
+- [X] T042 [US2] Add success response handler in src/main.ts: hide form, show success message, clear form state
+- [X] T043 [US2] Add error response handler in src/main.ts: show error message (graceful degradation per clarifications), keep form enabled
+- [X] T044 [US2] Add client-side validation feedback in src/main.ts: invalid email shows error below input field
+- [X] T045 [US2] Create Formspree account and configure form with notification email per quickstart.md
+- [X] T046 [US2] Update .env file with actual VITE_FORMSPREE_FORM_ID from Formspree dashboard
+- [X] T047 [US2] Test form submission end-to-end: valid email, invalid email, honeypot filled, service unavailable (mock 503)
 
 **Checkpoint**: At this point, User Stories 1 AND 2 are complete - MVP is functional and testable
 
@@ -129,13 +129,13 @@ description: "Task list for GitStore.dev Coming Soon Landing Page"
 
 ### Implementation for User Story 3
 
-- [ ] T048 [P] [US3] Expand value proposition section in index.html with detailed explanation of git workflows for product catalogs
-- [ ] T049 [P] [US3] Add use case examples to index.html: branch for seasonal changes, merge approved updates, rollback errors
-- [ ] T050 [P] [US3] Add benefit highlights to index.html: version control, collaboration, audit trails (technical audience)
-- [ ] T051 [P] [US3] Add benefit highlights to index.html: safe experimentation, easy rollback, change tracking (business audience)
-- [ ] T052 [US3] Apply TailwindCSS styling to expanded content per design.md (text-lg, leading-relaxed, color-neutral-700)
-- [ ] T053 [US3] Add responsive layout adjustments for tablet and desktop breakpoints (max-width 600px for readability)
-- [ ] T054 [US3] Test content readability and 30-second understanding goal per success criteria SC-002
+- [X] T048 [P] [US3] Expand value proposition section in index.html with detailed explanation of git workflows for product catalogs
+- [X] T049 [P] [US3] Add use case examples to index.html: branch for seasonal changes, merge approved updates, rollback errors
+- [X] T050 [P] [US3] Add benefit highlights to index.html: version control, collaboration, audit trails (technical audience)
+- [X] T051 [P] [US3] Add benefit highlights to index.html: safe experimentation, easy rollback, change tracking (business audience)
+- [X] T052 [US3] Apply TailwindCSS styling to expanded content per design.md (text-lg, leading-relaxed, color-neutral-700)
+- [X] T053 [US3] Add responsive layout adjustments for tablet and desktop breakpoints (max-width 600px for readability)
+- [X] T054 [US3] Test content readability and 30-second understanding goal per success criteria SC-002
 
 **Checkpoint**: User Stories 1, 2, AND 3 are complete - enhanced landing page with qualified lead generation
 
@@ -149,12 +149,12 @@ description: "Task list for GitStore.dev Coming Soon Landing Page"
 
 ### Implementation for User Story 4
 
-- [ ] T055 [P] [US4] Add GitHub link section to index.html below email form with "View on GitHub" text
-- [ ] T056 [P] [US4] Add GitHub icon SVG to index.html (inline SVG, 20px, currentColor fill per design.md)
-- [ ] T057 [P] [US4] Set link href to https://github.com/gitstore-dev/gitstore (OSS project, not this website repo)
-- [ ] T058 [P] [US4] Add target="_blank" and rel="noopener noreferrer" attributes for security
-- [ ] T059 [US4] Apply TailwindCSS styling to GitHub link per design.md (text-primary, hover:text-primary-dark, inline-flex, gap-2)
-- [ ] T060 [US4] Test link navigation to GitHub repository in new tab
+- [X] T055 [P] [US4] Add GitHub link section to index.html below email form with "View on GitHub" text
+- [X] T056 [P] [US4] Add GitHub icon SVG to index.html (inline SVG, 20px, currentColor fill per design.md)
+- [X] T057 [P] [US4] Set link href to https://github.com/gitstore-dev/gitstore (OSS project, not this website repo)
+- [X] T058 [P] [US4] Add target="_blank" and rel="noopener noreferrer" attributes for security
+- [X] T059 [US4] Apply TailwindCSS styling to GitHub link per design.md (text-primary, hover:text-primary-dark, inline-flex, gap-2)
+- [X] T060 [US4] Test link navigation to GitHub repository in new tab
 
 **Checkpoint**: All user stories (1-4) are complete - full feature set implemented
 
@@ -164,23 +164,23 @@ description: "Task list for GitStore.dev Coming Soon Landing Page"
 
 **Purpose**: Improvements that affect multiple user stories and final optimizations
 
-- [ ] T061 [P] Create og-image.png in public/ directory (1200x630px, hero text + background per design.md)
+- [X] T061 [P] Create og-image.png in public/ directory (1200x630px, hero text + background per design.md)
 - [ ] T062 [P] Optimize images: compress og-image.png to WebP format if >50KB
 - [ ] T063 [P] Add footer section to index.html with copyright and open source tagline (optional per design.md)
 - [ ] T064 [P] Verify all TailwindCSS classes are used and purged unused styles in production build
-- [ ] T065 [P] Add aria-labels to form inputs and buttons for accessibility
+- [X] T065 [P] Add aria-labels to form inputs and buttons for accessibility
 - [ ] T066 [P] Test keyboard navigation: tab through form, enter to submit
 - [ ] T067 [P] Test mobile responsive design on 375px width (Chrome DevTools device emulation)
 - [ ] T068 [P] Test mobile responsive design on 768px width (tablet)
 - [ ] T069 [P] Test desktop responsive design on 1024px+ width
-- [ ] T070 [P] Run Lighthouse audit and verify 90+ score in all categories (performance, accessibility, best practices, SEO)
+- [X] T070 [P] Run Lighthouse audit and verify 90+ score in all categories (performance, accessibility, best practices, SEO)
 - [ ] T071 [P] Verify page load time <3s on 3G network throttling (Chrome DevTools)
-- [ ] T072 [P] Verify bundle size <100KB after production build (npm run build output)
-- [ ] T073 Run Playwright end-to-end test (npm run test:e2e) and verify all tests pass
+- [X] T072 [P] Verify bundle size <100KB after production build (npm run build output)
+- [X] T073 Run Playwright end-to-end test (npm run test:e2e) and verify all tests pass
 - [ ] T074 Manual QA: Test all user stories end-to-end on production build (npm run preview)
-- [ ] T075 Verify GitHub Actions workflow deploys successfully to GitHub Pages (push to main branch)
-- [ ] T076 Configure custom domain gitstore.dev in GitHub repository settings per quickstart.md
-- [ ] T077 Verify production site loads at https://gitstore.dev with HTTPS enabled
+- [X] T075 Verify GitHub Actions workflow deploys successfully to GitHub Pages (push to main branch)
+- [X] T076 Configure custom domain gitstore.dev in GitHub repository settings per quickstart.md
+- [X] T077 Verify production site loads at https://gitstore.dev with HTTPS enabled
 
 ---
 
