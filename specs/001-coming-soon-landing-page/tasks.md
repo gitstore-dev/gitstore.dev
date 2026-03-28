@@ -304,16 +304,16 @@ With multiple developers (if applicable):
 
 Before marking feature complete, verify:
 
-- [ ] User Story 1: Visit https://gitstore.dev → See "Coming Soon" message and value proposition (SC-001, SC-002)
-- [ ] User Story 2: Submit email → Receive success confirmation → Verify in Formspree dashboard (SC-003, SC-006)
-- [ ] User Story 2: Submit invalid email → See error message
-- [ ] User Story 2: Fill honeypot field → Submission silently rejected
-- [ ] User Story 3: Read page content → Understand git workflows for product catalogs within 30 seconds (SC-002)
-- [ ] User Story 4: Click GitHub link → Opens https://github.com/gitstore-dev/gitstore in new tab
-- [ ] Performance: Page loads in <3s on standard broadband (SC-001)
-- [ ] Performance: Bundle size <100KB (check npm run build output)
-- [ ] Performance: Lighthouse score 90+ (run npm run build && npm run preview, then Lighthouse audit)
-- [ ] Mobile: Page functional and readable on 375px width (SC-004)
-- [ ] E2E Test: Playwright test passes (npm run test:e2e)
-- [ ] Deployment: GitHub Actions workflow succeeds on push to main
-- [ ] Production: Site accessible at https://gitstore.dev with HTTPS
+- [X] User Story 1: Visit https://gitstore.dev → See "Coming Soon" message and value proposition (SC-001, SC-002)
+- [X] User Story 2: Submit email → Receive success confirmation → Verify in Formspree dashboard (SC-003, SC-006)
+- [X] User Story 2: Submit invalid email → See error message
+- [X] User Story 2: Fill honeypot field → Submission silently rejected
+- [X] User Story 3: Read page content → Understand git workflows for product catalogs within 30 seconds (SC-002)
+- [X] User Story 4: Click GitHub link → Opens https://github.com/gitstore-dev/gitstore in new tab
+- [X] Performance: Page loads in <3s on standard broadband (SC-001)
+- [X] Performance: Bundle size <100KB (check npm run build output)
+- [X] Performance: Lighthouse score 90+ (run npm run build && npm run preview, then Lighthouse audit)
+- [X] Mobile: Page functional and readable on 375px width (SC-004)
+- [X] E2E Test: Playwright test passes (npm run test:e2e)
+- [X] Deployment: GitHub Actions workflow succeeds on push to main
+- [X] Production: Site accessible at https://gitstore.dev with HTTPS
