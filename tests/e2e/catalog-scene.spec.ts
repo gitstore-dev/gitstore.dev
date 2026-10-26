@@ -19,6 +19,9 @@ test.describe('WebGPU rendering', () => {
   test('renders moving pixels, pauses, and honors reduced motion', async ({ page }) => {
     const errors: string[] = [];
     page.on('pageerror', (error) => errors.push(error.message));
+    page.on('console', (message) => {
+      if (message.type() === 'warning' || message.type() === 'error') console.log(message.text());
+    });
     await page.goto('/');
     const available = await page.evaluate(async () => !!(await navigator.gpu?.requestAdapter()));
     test.skip(

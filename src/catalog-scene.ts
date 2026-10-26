@@ -41,7 +41,10 @@ export async function initCatalogScene() {
     }
     const format = navigator.gpu.getPreferredCanvasFormat();
     context.configure({ device: gpu, format, alphaMode: 'opaque' });
-    gpu.addEventListener('uncapturederror', stop);
+    gpu.addEventListener('uncapturederror', (event) => {
+      console.warn('Catalog scene GPU error:', event.error.message);
+      stop();
+    });
     const module = gpu.createShaderModule({ code: shader });
     const pipeline = await gpu.createRenderPipelineAsync({
       layout: 'auto',
