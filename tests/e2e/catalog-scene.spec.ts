@@ -5,12 +5,7 @@ test.use({
   launchOptions: {
     args:
       process.platform === 'linux'
-        ? [
-            '--enable-unsafe-webgpu',
-            '--use-angle=vulkan',
-            '--enable-features=Vulkan',
-            '--disable-vulkan-surface',
-          ]
+        ? ['--enable-unsafe-webgpu', '--use-angle=swiftshader', '--enable-unsafe-swiftshader']
         : ['--enable-unsafe-webgpu', '--use-angle=swiftshader'],
   },
 });
@@ -49,8 +44,7 @@ test.describe('WebGPU rendering', () => {
     await page.getByRole('tab', { name: '03 Recover' }).click();
     await page.evaluate(() => window.dispatchEvent(new Event('test-release-gpu')));
     const scene = page.locator('#catalog-scene');
-    // Use the application's adapter result. Requesting a second fallback adapter
-    // can invalidate the device the scene is already using on Linux.
+    // Use the application's actual initialization result for capability detection.
     await expect(async () => {
       const state = await scene.getAttribute('data-gpu-state');
       expect(['requesting-adapter', 'requesting-device', 'compiling']).not.toContain(state);

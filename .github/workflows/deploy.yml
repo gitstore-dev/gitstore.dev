@@ -40,7 +40,7 @@ jobs:
           VITE_FORMSPREE_FORM_ID: ${{ secrets.VITE_FORMSPREE_FORM_ID }}
 
       - name: Run E2E tests
-        run: npm run test:e2e
+        run: xvfb-run -a npm run test:e2e
 
       - name: Upload test report
         if: failure()

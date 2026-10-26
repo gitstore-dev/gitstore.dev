@@ -210,7 +210,7 @@ export async function initCatalogScene() {
       } else requestFrame();
     });
     void gpu.lost.then((info) => {
-      if (info.reason !== 'destroyed') console.warn('Catalog scene device lost:', info.message);
+      console.warn('Catalog scene device lost:', info.reason, info.message);
       resize.disconnect();
       intersection.disconnect();
       theme.disconnect();
