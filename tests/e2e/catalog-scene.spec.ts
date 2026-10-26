@@ -1,7 +1,19 @@
 import { test, expect } from '@playwright/test';
 
 // Explicit software backend makes headless WebGPU screenshots reproducible.
-test.use({ launchOptions: { args: ['--enable-unsafe-webgpu', '--use-angle=swiftshader'] } });
+test.use({
+  launchOptions: {
+    args:
+      process.platform === 'linux'
+        ? [
+            '--enable-unsafe-webgpu',
+            '--use-angle=vulkan',
+            '--enable-features=Vulkan',
+            '--disable-vulkan-surface',
+          ]
+        : ['--enable-unsafe-webgpu', '--use-angle=swiftshader'],
+  },
+});
 
 test('keeps the illustration and workflow usable when WebGPU is unavailable', async ({ page }) => {
   await page.addInitScript(() => Object.defineProperty(navigator, 'gpu', { value: undefined }));
@@ -22,10 +34,13 @@ test.describe('WebGPU rendering', () => {
       if (message.type() === 'warning' || message.type() === 'error') console.log(message.text());
     });
     await page.goto('/');
-    const available = await page.evaluate(async () => !!(await navigator.gpu?.requestAdapter()));
+    const available = await page.evaluate(async () => {
+      const adapter = await navigator.gpu?.requestAdapter({ powerPreference: 'low-power' });
+      return !!adapter && !!document.createElement('canvas').getContext('webgpu');
+    });
     test.skip(
       !available,
-      'This environment has no WebGPU adapter; the fallback is tested separately.'
+      'This environment cannot present a WebGPU canvas; the fallback is tested separately.'
     );
     const scene = page.locator('#catalog-scene');
     try {

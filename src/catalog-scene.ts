@@ -45,6 +45,7 @@ export async function initCatalogScene() {
     const gpu = device;
     const context = canvas.getContext('webgpu');
     if (!context) {
+      console.warn('Catalog scene WebGPU canvas unavailable; keeping the static illustration.');
       stop();
       return;
     }
