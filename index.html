@@ -1,167 +1,632 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#f7f6f0" />
+    <script>
+      (() => {
+        let preference = 'system';
+        try {
+          const saved = localStorage.getItem('gitstore-theme');
+          if (saved === 'light' || saved === 'dark') preference = saved;
+        } catch {}
+        const theme =
+          preference === 'system'
+            ? matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light'
+            : preference;
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.dataset.themePreference = preference;
+      })();
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <!-- Primary Meta Tags -->
-    <title>GitStore - E-commerce for Git Workflows</title>
-    <meta name="title" content="GitStore - E-commerce for Git Workflows" />
-    <meta name="description" content="An e-commerce engine optimized for git operations. Branch, merge, and roll back product catalog changes with git workflows. Built for developers, AI agents, and store operators." />
-
-    <!-- Open Graph / Facebook -->
+    <title>GitStore — A better way to change your catalog</title>
+    <meta
+      name="description"
+      content="Prepare campaigns, review catalog changes, and recover with Git history. GitStore is an open-source, Git-backed catalog platform for teams and AI agents. Explore the alpha."
+    />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://gitstore.dev/" />
-    <meta property="og:title" content="GitStore - E-commerce for Git Workflows" />
-    <meta property="og:description" content="An e-commerce engine optimized for git operations. Branch, merge, and roll back product catalog changes with git workflows." />
+    <meta property="og:title" content="GitStore — A better way to change your catalog" />
+    <meta
+      property="og:description"
+      content="Your next catalog change deserves an undo button. Open-source, Git-backed catalog operations for teams and AI agents."
+    />
     <meta property="og:image" content="https://gitstore.dev/og-image.png" />
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://gitstore.dev/" />
-    <meta property="twitter:title" content="GitStore - E-commerce for Git Workflows" />
-    <meta property="twitter:description" content="An e-commerce engine optimized for git operations. Branch, merge, and roll back product catalog changes with git workflows." />
-    <meta property="twitter:image" content="https://gitstore.dev/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="GitStore — Change boldly. Keep a way back. Reviewable catalogs, powered by Git."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="GitStore — A better way to change your catalog" />
+    <meta
+      name="twitter:description"
+      content="Prepare. Review. Recover. Explore the open-source GitStore alpha."
+    />
+    <meta name="twitter:image" content="https://gitstore.dev/og-image.png" />
+    <meta name="twitter:image:alt" content="GitStore — Change boldly. Keep a way back." />
+    <link rel="canonical" href="https://gitstore.dev/" />
   </head>
-  <body class="bg-neutral-50 text-neutral-900">
-    <main class="min-h-screen px-6 py-16 md:px-8 lg:px-12 lg:py-24">
-      <!-- Hero Section -->
-      <section class="mx-auto max-w-3xl text-center">
-        <!-- Coming Soon Badge -->
-        <div class="mb-6 flex justify-center">
-          <span class="inline-block rounded-full bg-primary-light px-4 py-1 text-sm font-semibold uppercase text-primary">
-            Coming Soon
-          </span>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header wrap">
+      <a class="brand" href="#" aria-label="GitStore home"
+        ><span class="brand-symbol" aria-hidden="true">
+          <img
+            class="brand-mark brand-mark-light"
+            src="/branding/logo-light.svg"
+            alt=""
+            width="40"
+            height="40"
+          />
+          <img
+            class="brand-mark brand-mark-dark"
+            src="/branding/logo-dark.svg"
+            alt=""
+            width="40"
+            height="40"
+          />
+        </span>
+        <span>GitStore</span></a
+      >
+      <nav aria-label="Main navigation">
+        <a href="#workflow">Why GitStore</a><a href="#engine">For developers</a
+        ><a href="#roadmap">Roadmap</a>
+      </nav>
+      <div class="header-actions">
+        <a class="nav-cta" href="#early-access"
+          >Get early access <span aria-hidden="true">↗</span></a
+        >
+        <div class="theme-picker">
+          <button
+            class="theme-control"
+            id="theme-trigger"
+            type="button"
+            aria-haspopup="menu"
+            aria-expanded="false"
+            aria-controls="theme-menu"
+            aria-label="Color theme: System"
+          >
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              width="16"
+              height="16"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path d="M12 3a9 9 0 1 0 9 9 9 9 0 0 1-9-9Z" />
+            </svg>
+            <span id="theme-label">System</span>
+            <svg
+              class="theme-chevron"
+              aria-hidden="true"
+              viewBox="0 0 16 16"
+              width="12"
+              height="12"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path d="m4 6 4 4 4-4" />
+            </svg>
+          </button>
+          <div id="theme-menu" class="theme-menu hidden" role="menu" aria-label="Color theme">
+            <button
+              type="button"
+              role="menuitemradio"
+              aria-checked="true"
+              tabindex="-1"
+              data-theme-choice="system"
+            >
+              <span aria-hidden="true">◐</span>System<span class="theme-check" aria-hidden="true"
+                >✓</span
+              >
+            </button>
+            <button
+              type="button"
+              role="menuitemradio"
+              aria-checked="false"
+              tabindex="-1"
+              data-theme-choice="light"
+            >
+              <span aria-hidden="true">☼</span>Light<span class="theme-check" aria-hidden="true"
+                >✓</span
+              >
+            </button>
+            <button
+              type="button"
+              role="menuitemradio"
+              aria-checked="false"
+              tabindex="-1"
+              data-theme-choice="dark"
+            >
+              <span aria-hidden="true">☾</span>Dark<span class="theme-check" aria-hidden="true"
+                >✓</span
+              >
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero wrap" aria-labelledby="hero-heading">
+        <div class="hero-copy">
+          <a class="eyebrow alpha-link" href="#roadmap"
+            ><span class="status-dot"></span> EARLY ACCESS / CATALOG CHANGES WITH CONFIDENCE
+            <span aria-hidden="true">↗</span></a
+          >
+          <h1 id="hero-heading">
+            Your catalog.<br />With an <em>undo</em><br />button<span class="orange">.</span>
+          </h1>
+          <p class="hero-description">
+            Prepare seasonal campaigns, check supplier updates, and review AI-written content before
+            your team publishes it. Keep a clear record of every change, with a way back when
+            something goes wrong.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#early-access"
+              >Request early access <span aria-hidden="true">↗</span></a
+            ><a class="text-link" href="#workflow"
+              >See how it works <span aria-hidden="true">↗</span></a
+            >
+          </div>
+          <p class="hero-note">
+            For commerce teams and their developers. Open source, currently in alpha.
+          </p>
         </div>
 
-        <!-- Heading -->
-        <h1 class="mb-4 text-4xl font-bold leading-tight text-neutral-900 md:text-5xl lg:text-6xl">
-          GitStore
-        </h1>
+        <div
+          class="workflow-demo"
+          aria-label="Interactive illustration of preparing, reviewing, and correcting a catalog change"
+        >
+          <div class="demo-topline">
+            <span><span class="status-dot"></span> YOUR NEXT CAMPAIGN</span
+            ><span>WORKFLOW CONCEPT</span>
+          </div>
+          <div class="catalog-scene" id="catalog-scene" data-renderer="poster">
+            <svg class="scene-poster" viewBox="0 0 600 300" aria-hidden="true">
+              <g
+                class="scene-grid"
+                fill="none"
+                stroke="currentColor"
+                stroke-width=".5"
+                opacity=".16"
+              >
+                <path
+                  d="M0 200 350 0M0 250 440 0M0 300 530 0M90 300 600 10M180 300 600 60M270 300 600 110M0 40 450 300M0 90 360 300M0 140 270 300M100 0 600 290M190 0 600 240M280 0 600 190"
+                />
+              </g>
+              <g stroke="var(--line)" stroke-width="1.5">
+                <path fill="var(--surface-muted)" d="m90 150 130-75 130 75v30l-130 75-130-75Z" />
+                <path fill="var(--surface)" d="m90 150 130-75 130 75-130 75Z" />
+                <path fill="var(--surface-muted)" d="m250 85 100-58 120 69v27l-100 58-120-69Z" />
+                <path fill="var(--surface)" d="m250 85 100-58 120 69-100 58Z" />
+                <path fill="var(--surface-muted)" d="m300 216 100-58 120 69v27l-100 58-120-69Z" />
+                <path fill="var(--surface)" d="m300 216 100-58 120 69-100 58Z" />
+              </g>
+              <path
+                d="m35 220 185-107 170 98 145-84M220 113l145-84"
+                fill="none"
+                stroke="#ed572e"
+                stroke-width="15"
+                stroke-linejoin="miter"
+              />
+              <g fill="var(--green)"><path d="m208 107 12-7 12 7v14l-12 7-12-7Z" /></g>
+            </svg>
+            <canvas id="catalog-canvas" aria-hidden="true"></canvas>
+            <div class="scene-overlay">
+              <span>ONE CATALOG. ROOM TO EXPLORE.</span
+              ><button
+                id="scene-motion"
+                type="button"
+                aria-label="Pause scene animation"
+                aria-pressed="false"
+                hidden
+              >
+                Ⅱ
+              </button>
+            </div>
+          </div>
+          <div class="demo-path">
+            <span class="repo-icon" aria-hidden="true">⑂</span> Acme / Seasonal collection
+            <span class="branch-label" id="demo-branch">Draft workspace</span>
+          </div>
+          <div
+            class="demo-content"
+            id="demo-panel"
+            role="tabpanel"
+            aria-labelledby="stage-tab"
+            tabindex="0"
+          >
+            <div class="demo-heading">
+              <span class="demo-kicker" id="demo-kicker">01 / PLAN YOUR CAMPAIGN</span
+              ><span class="demo-badge" id="demo-badge">Draft</span>
+            </div>
+            <h2 id="demo-title">A new season. A safe place to start.</h2>
+            <p id="demo-description">
+              Prepare your holiday collection away from the published catalog.
+            </p>
+            <details class="catalog-changes">
+              <summary>See the proposed changes <span aria-hidden="true">↗</span></summary>
+              <div class="diff-file">
+                <span aria-hidden="true">▤</span> Holiday campaign / Collection details
+                <span id="diff-count">+2 −1</span>
+              </div>
+              <div class="diff-code">
+                <div><span class="line-number"></span><span>Collection name</span></div>
+                <div class="diff-removed">
+                  <span class="line-number">−</span><span id="diff-before">Autumn essentials</span>
+                </div>
+                <div class="diff-added">
+                  <span class="line-number">+</span><span id="diff-after">The holiday edit</span>
+                </div>
+                <div><span class="line-number"></span><span>Description</span></div>
+                <div><span class="line-number"></span><span>&nbsp;</span></div>
+                <div class="diff-added">
+                  <span class="line-number">+</span
+                  ><span id="diff-extra">A little winter magic.</span>
+                </div>
+              </div>
+            </details>
+            <div class="demo-result">
+              <span class="result-icon" id="demo-result-icon" aria-hidden="true">⑂</span>
+              <div>
+                <strong id="demo-result-title">Room to get it right</strong
+                ><span id="demo-result-copy"
+                  >Keep campaign ideas separate from the published catalog.</span
+                >
+              </div>
+            </div>
+          </div>
+          <div class="demo-tabs" role="tablist" aria-label="Explore the catalog workflow">
+            <button
+              id="stage-tab"
+              type="button"
+              role="tab"
+              aria-selected="true"
+              aria-controls="demo-panel"
+              tabindex="0"
+              data-demo="stage"
+            >
+              <span>01</span> Prepare</button
+            ><button
+              id="review-tab"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="demo-panel"
+              tabindex="-1"
+              data-demo="review"
+            >
+              <span>02</span> Review</button
+            ><button
+              id="recover-tab"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="demo-panel"
+              tabindex="-1"
+              data-demo="recover"
+            >
+              <span>03</span> Recover
+            </button>
+          </div>
+          <details class="demo-technical">
+            <summary>For developers: see the Git command</summary>
+            <div class="terminal-strip">
+              <span>$</span> <code id="demo-command">git switch -c holiday-drop</code
+              ><span class="terminal-cursor" aria-hidden="true">▌</span>
+            </div>
+          </details>
+          <p class="demo-caption">
+            Illustrative workflow. The alpha uses Git tools; this is not a finished admin screen.
+          </p>
+        </div>
+      </section>
 
-        <!-- Subheading -->
-        <p class="mb-3 text-xl font-medium text-neutral-700 md:text-2xl">
-          Manage your store like code
-        </p>
+      <div class="principles wrap">
+        <span>More confidence.<br /><strong>From planning to launch.</strong></span>
+        <p>Prepare campaigns</p>
+        <p>Review changes</p>
+        <p>Recover earlier content</p>
+        <a href="https://github.com/gitstore-dev/GitStore" target="_blank" rel="noopener noreferrer"
+          >Open source <span aria-hidden="true">↗</span></a
+        >
+      </div>
 
-        <!-- Value Proposition -->
-        <p class="mx-auto mb-4 max-w-2xl text-base leading-relaxed text-neutral-700 md:text-lg">
-          An e-commerce engine optimized for git operations. Branch, merge, and roll back product catalog changes with git workflows.
-        </p>
+      <section class="section wrap" id="workflow" aria-labelledby="workflow-heading">
+        <div class="section-heading">
+          <p class="eyebrow">01 / CHANGE WITH CONFIDENCE</p>
+          <h2 id="workflow-heading">Plan the launch.<br />Keep control of the changes.</h2>
+          <p>
+            A seasonal launch can touch hundreds of products. Give your team room to prepare, a
+            clear view of what will change, and a recovery path if an update goes wrong.
+          </p>
+        </div>
+        <div class="benefits">
+          <article>
+            <span class="feature-symbol" aria-hidden="true">⑂</span
+            ><span class="small-label">BEFORE THE LAUNCH</span>
+            <h3>Make space for<br />the next big thing.</h3>
+            <p>
+              Prepare a seasonal collection separately from the published catalog. Refine the
+              content with your team and review the proposed updates before launch day.
+            </p>
+            <span class="feature-foot">Time to prepare. Room to review.</span>
+          </article>
+          <article>
+            <span class="feature-symbol" aria-hidden="true">±</span
+            ><span class="small-label">BEFORE THE CHANGE</span>
+            <h3>
+              See what changed.<br />
+              Know who changed it.
+            </h3>
+            <p>
+              See exactly what a colleague, supplier update, or AI assistant proposes to change.
+              Your team can review the details and trace who changed what, and when.
+            </p>
+            <span class="feature-foot">A clear record for your team.</span>
+          </article>
+          <article>
+            <span class="feature-symbol" aria-hidden="true">↶</span
+            ><span class="small-label">AFTER THE MISTAKE</span>
+            <h3>A wrong turn.<br />A way back.</h3>
+            <p>
+              If an update introduces a mistake, your technical team can restore earlier catalog
+              content from its history. Corrections go through the same checks as other updates.
+            </p>
+            <span class="feature-foot">A recovery path you can plan for.</span>
+          </article>
+        </div>
+      </section>
 
-        <!-- Audience Tag -->
-        <p class="mb-12 text-sm font-medium text-neutral-400">
-          Built for developers, AI agents, and store operators
-        </p>
+      <section class="engine-section" id="engine" aria-labelledby="engine-heading">
+        <div class="engine-grid wrap">
+          <div class="engine-copy">
+            <p class="eyebrow">02 / PLAIN FILES. SERIOUS POSSIBILITIES.</p>
+            <h2 id="engine-heading">Describe the catalog.<br /><em>Let the engine work.</em></h2>
+            <p>
+              Products, variants, categories, and collections live in Markdown with structured YAML
+              frontmatter. Your tools edit files. Git records intent. GitStore validates and
+              reconciles admitted resources into queryable catalog state.
+            </p>
+            <div class="engine-detail">
+              <span>01</span>
+              <div>
+                <h3>Your existing Git tools</h3>
+                <p>
+                  Clone, commit, and push over Smart HTTP. Connect the editors and automation your
+                  team already uses.
+                </p>
+              </div>
+            </div>
+            <div class="engine-detail">
+              <span>02</span>
+              <div>
+                <h3>Validation before projection</h3>
+                <p>
+                  Pre-receive checks catch structural errors. Admission checks govern what becomes
+                  available through GraphQL.
+                </p>
+              </div>
+            </div>
+            <div class="engine-detail">
+              <span>03</span>
+              <div>
+                <h3>Reconciliation, with visible status</h3>
+                <p>
+                  Controllers work toward the declared state and report conditions. A push is the
+                  start of processing, not a promise of instant publication.
+                </p>
+              </div>
+            </div>
+            <a
+              class="text-link"
+              href="https://github.com/gitstore-dev/GitStore/blob/main/docs/architecture/README.md"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Explore the architecture <span aria-hidden="true">↗</span></a
+            >
+          </div>
+          <div class="code-window">
+            <div class="code-top">
+              <span><i></i><i></i><i></i></span><span>collections/holiday-edit.md</span
+              ><span>MD</span>
+            </div>
+            <pre><code><span class="code-muted">---</span>
+<span class="code-key">apiVersion:</span> catalog.gitstore.dev/v1beta1
+<span class="code-key">kind:</span> <span class="code-value">Collection</span>
+<span class="code-key">metadata:</span>
+  <span class="code-key">name:</span> holiday-edit
+<span class="code-key">spec:</span>
+  <span class="code-key">title:</span> <span class="code-value">The holiday edit</span>
+  <span class="code-key">selector:</span>
+    <span class="code-key">matchLabels:</span>
+      <span class="code-key">season:</span> winter
+<span class="code-muted">---</span>
 
-        <!-- Git Workflows Explainer (US3) -->
-        <div class="mx-auto mb-12 max-w-2xl space-y-6 text-left">
+<span class="code-body">Thoughtful gifts. Everyday favorites.
+A collection worth coming back to.</span></code></pre>
+            <div class="code-bottom">
+              <span class="status-dot"></span> Human-readable. Agent-writable. Git-versioned.
+            </div>
+            <div class="engine-pipeline">
+              <span>Files</span><span aria-hidden="true">→</span><span>Git + validation</span
+              ><span aria-hidden="true">→</span><span>GraphQL</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="agent-section section wrap" aria-labelledby="agent-heading">
+        <div class="agent-visual" aria-hidden="true">
+          <div class="agent-node">✳<span>AI AGENT</span></div>
+          <div class="agent-connector">↓ <span>proposed changes</span></div>
+          <div class="agent-review">
+            ± <span>Review the changes</span><span class="review-check">✓</span>
+          </div>
+          <div class="agent-connector">↓ <span>your team’s review process</span></div>
+          <div class="agent-live"><span class="status-dot"></span> CATALOG HISTORY</div>
+        </div>
+        <div>
+          <p class="eyebrow">03 / AUTOMATION WITH ACCOUNTABILITY</p>
+          <h2 id="agent-heading">Put AI to work.<br /><em>Keep your team in control.</em></h2>
+          <p>
+            Let AI help draft descriptions, organize supplier data, and prepare collections. Your
+            team can review its proposed changes before accepting them into the catalog, with the
+            same recorded history as any other contribution.
+          </p>
+          <p>
+            Your developers set up the access and review process. You decide where AI fits into your
+            operations and who is responsible for checking its work.
+          </p>
+          <a
+            class="text-link"
+            href="https://github.com/gitstore-dev/GitStore#why-this-works-well-for-developers-and-ai-agents"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Why Git-native works for agents <span aria-hidden="true">↗</span></a
+          >
+        </div>
+      </section>
+
+      <section class="roadmap-section section wrap" id="roadmap" aria-labelledby="roadmap-heading">
+        <div class="roadmap-intro">
+          <p class="eyebrow">04 / BUILT IN THE OPEN</p>
+          <h2 id="roadmap-heading">Early days.<br />Clear direction.</h2>
+          <p>
+            Evaluate the alpha with your technical team and help shape what comes next. This is an
+            early platform: interfaces can change, and a complete commerce administration experience
+            is still ahead.
+          </p>
+          <a
+            class="text-link"
+            href="https://github.com/gitstore-dev/GitStore/issues"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Follow development <span aria-hidden="true">↗</span></a
+          >
+        </div>
+        <div class="roadmap-list">
+          <article>
+            <span class="phase phase-current"><span class="status-dot"></span> IN THE ALPHA</span>
+            <h3>The catalog foundation</h3>
+            <p>
+              Products, variants, categories, and collections with a recorded change history and
+              checks on incoming updates. Developers can run the platform themselves, manage catalog
+              files with Git, and connect storefronts through GraphQL.
+            </p>
+          </article>
+          <article>
+            <span class="phase">IN DEVELOPMENT</span>
+            <h3>More consistent product information</h3>
+            <p>
+              Reusable definitions for product options and attributes are being designed to help
+              teams keep product information consistent across their catalog.
+            </p>
+          </article>
+          <article>
+            <span class="phase">THE DIRECTION</span>
+            <h3>More ways to operate</h3>
+            <p>
+              A more complete commerce administration experience and broader catalog workflows.
+              Scope and timing will follow public development, not a fixed release promise.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="signup-section" id="early-access" aria-labelledby="signup-heading">
+        <div class="signup-grid wrap">
           <div>
-            <h2 class="mb-3 text-xl font-semibold text-neutral-900">How Git Workflows Transform E-commerce</h2>
-            <p class="text-base leading-relaxed text-neutral-700">
-              GitStore enables managing product catalogs using git workflows. Branch for experimental changes,
-              merge approved updates, and roll back errors instantly—just like managing code.
+            <p class="eyebrow">LET’S BUILD A BETTER WAY TO CHANGE THINGS.</p>
+            <h2 id="signup-heading">Your next launch.<br /><em>With more confidence.</em></h2>
+            <p>
+              Planning a catalog project? Join the early-access list for product updates and
+              opportunities to help shape GitStore around your team’s needs.
             </p>
           </div>
-
-          <div class="grid gap-4 md:grid-cols-2">
-            <!-- Technical Benefits -->
-            <div class="rounded-lg bg-white p-4 shadow-sm">
-              <h3 class="mb-2 text-base font-semibold text-neutral-900">For Developers & AI Agents</h3>
-              <ul class="space-y-1 text-sm text-neutral-700">
-                <li>• Full version control for product data</li>
-                <li>• Collaborate with pull requests</li>
-                <li>• Complete audit trail of changes</li>
-                <li>• API-first architecture for automation</li>
-              </ul>
-            </div>
-
-            <!-- Business Benefits -->
-            <div class="rounded-lg bg-white p-4 shadow-sm">
-              <h3 class="mb-2 text-base font-semibold text-neutral-900">For Store Operators</h3>
-              <ul class="space-y-1 text-sm text-neutral-700">
-                <li>• Safe experimentation with branches</li>
-                <li>• Easy rollback of mistakes</li>
-                <li>• Track all catalog changes</li>
-                <li>• Seasonal updates without risk</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <!-- Email Signup Form -->
-        <div class="mx-auto max-w-md rounded-xl bg-white p-8 shadow-lg">
-          <form id="signup-form" class="space-y-4">
-            <div>
-              <label for="email" class="block text-left text-lg font-semibold text-neutral-900">
-                Get notified at launch
-              </label>
-            </div>
-
-            <div>
+          <div class="signup-card">
+            <form id="signup-form">
+              <label for="email">Get in early.</label>
+              <p>For commerce leaders, catalog teams, and their developers.</p>
               <input
                 type="email"
                 id="email"
                 name="email"
-                placeholder="your@email.com"
+                placeholder="you@company.com"
                 required
-                aria-label="Email address"
-                aria-describedby="email-error"
-                class="w-full rounded-lg border-2 border-neutral-100 px-4 py-3 text-base transition-colors placeholder:text-neutral-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary-light"
+                autocomplete="email"
+                aria-describedby="email-error signup-note"
               />
-              <p id="email-error" class="mt-2 hidden text-sm text-error"></p>
+              <p id="email-error" class="hidden" role="alert"></p>
+              <input
+                type="text"
+                name="_gotcha"
+                tabindex="-1"
+                autocomplete="off"
+                aria-hidden="true"
+                class="honeypot"
+              /><button type="submit" id="submit-btn" class="button button-primary">
+                Request early access <span aria-hidden="true">↗</span>
+              </button>
+              <p id="signup-note" class="signup-note">
+                GitStore news and early-access updates. No spam.
+              </p>
+            </form>
+            <div id="success-message" class="hidden form-message" role="status">
+              <strong>You’re on the list.</strong>
+              <p>We’ll be in touch with GitStore news and early-access updates.</p>
             </div>
-
-            <!-- Honeypot field (hidden from users) -->
-            <input
-              type="text"
-              name="_gotcha"
-              tabindex="-1"
-              autocomplete="off"
-              style="position: absolute; left: -5000px"
-            />
-
-            <button
-              type="submit"
-              id="submit-btn"
-              aria-label="Sign up for early access to GitStore"
-              class="w-full rounded-lg bg-primary px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary-light disabled:cursor-not-allowed disabled:bg-neutral-400"
-            >
-              Sign up for early access
-            </button>
-          </form>
-
-          <!-- Success Message (hidden by default) -->
-          <div id="success-message" class="hidden rounded-lg border border-success bg-success/10 p-4 text-sm text-success">
-            <p class="font-medium">✓ Success!</p>
-            <p>You're on the list. We'll notify you when GitStore launches.</p>
+            <div id="error-message" class="hidden form-message" role="alert">
+              <strong>Unable to sign up right now.</strong>
+              <p>Please try again in a few minutes.</p>
+            </div>
           </div>
-
-          <!-- Error Message (hidden by default) -->
-          <div id="error-message" class="hidden rounded-lg border border-error bg-error/10 p-4 text-sm text-error">
-            <p class="font-medium">Unable to sign up right now.</p>
-            <p>Please try again in a few minutes.</p>
-          </div>
-        </div>
-
-        <!-- GitHub Link -->
-        <div class="mt-12">
-          <a
-            href="https://github.com/gitstore-dev/gitstore"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center gap-2 text-base font-medium text-primary transition-colors hover:text-primary-dark hover:underline"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.11.82-.26.82-.58v-2.03c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.83 1.23 1.83 1.23 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23.96-.27 1.98-.4 3-.41 1.02.01 2.04.14 3 .41 2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.82.58C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/>
-            </svg>
-            View on GitHub
-          </a>
         </div>
       </section>
     </main>
-
+    <footer class="site-footer wrap">
+      <a class="brand" href="#" aria-label="GitStore home"
+        ><span class="brand-symbol" aria-hidden="true">
+          <img
+            class="brand-mark brand-mark-light"
+            src="/branding/logo-light.svg"
+            alt=""
+            width="40"
+            height="40"
+          />
+          <img
+            class="brand-mark brand-mark-dark"
+            src="/branding/logo-dark.svg"
+            alt=""
+            width="40"
+            height="40"
+          />
+        </span>
+        <span>GitStore</span></a
+      >
+      <p>More confidence in every catalog change.</p>
+      <div>
+        <a href="https://github.com/gitstore-dev/GitStore" target="_blank" rel="noopener noreferrer"
+          >GitHub ↗</a
+        ><a
+          href="https://github.com/gitstore-dev/GitStore/blob/main/docs/user-guide.md"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Documentation ↗</a
+        ><span>AGPL-3.0-or-later</span>
+      </div>
+    </footer>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

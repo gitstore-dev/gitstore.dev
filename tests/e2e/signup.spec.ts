@@ -1,41 +1,61 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Email Signup Form', () => {
-  test('should successfully submit email and show success message', async ({ page }) => {
+test.describe('Marketing page', () => {
+  test('submits the early-access form and confirms signup', async ({ page }) => {
+    await page.route('https://formspree.io/f/**', async (route) => {
+      expect(route.request().postDataJSON().email).toBe('test@example.com');
+      await route.fulfill({ json: { ok: true } });
+    });
     await page.goto('/');
-
-    // Verify page loaded with coming soon message
-    await expect(page.locator('h1')).toHaveText('GitStore');
-    await expect(page.getByText('Coming Soon')).toBeVisible();
-
-    // Fill in email
-    const emailInput = page.locator('input[type="email"]');
-    await emailInput.fill('test@example.com');
-
-    // Submit form
-    const submitButton = page.locator('button[type="submit"]');
-    await submitButton.click();
-
-    // Note: This test will fail in real execution without actual Formspree setup
-    // For now, it validates the form exists and can be interacted with
-    await expect(emailInput).toBeVisible();
-    await expect(submitButton).toBeVisible();
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('With an undo');
+    await page.locator('#email').fill('test@example.com');
+    await page.locator('#submit-btn').click();
+    await expect(page.locator('#success-message')).toBeVisible();
+    await expect(page.locator('#signup-form')).toBeHidden();
   });
 
-  test('should show error for invalid email format', async ({ page }) => {
+  test('shows an error for an invalid email and clears it when edited', async ({ page }) => {
     await page.goto('/');
-
-    // Fill in invalid email
-    const emailInput = page.locator('input[type="email"]');
-    await emailInput.fill('invalid-email');
-
-    // Blur to trigger validation
-    await emailInput.blur();
-
-    // Try to submit
-    await page.locator('button[type="submit"]').click();
-
-    // Should show validation error
+    await page.locator('#email').fill('invalid-email');
+    await page.locator('#email').blur();
     await expect(page.locator('#email-error')).toBeVisible();
+    await expect(page.locator('#email')).toHaveAttribute('aria-invalid', 'true');
+    await page.locator('#email').fill('valid@example.com');
+    await expect(page.locator('#email-error')).toBeHidden();
+    await expect(page.locator('#email')).not.toHaveAttribute('aria-invalid');
+  });
+
+  test('keeps the form usable after a network failure', async ({ page }) => {
+    await page.route('https://formspree.io/f/**', (route) => route.abort());
+    await page.goto('/');
+    await page.locator('#email').fill('test@example.com');
+    await page.locator('#submit-btn').click();
+    await expect(page.locator('#error-message')).toBeVisible();
+    await expect(page.locator('#submit-btn')).toBeEnabled();
+    await expect(page.locator('#email')).toHaveValue('test@example.com');
+  });
+
+  test('supports mouse and keyboard exploration of the workflow', async ({ page }) => {
+    await page.goto('/');
+    await page.getByRole('tab', { name: '02 Review' }).click();
+    await expect(page.locator('#demo-command')).toHaveText('git diff main...holiday-drop');
+    await page.getByRole('tab', { name: '02 Review' }).press('ArrowRight');
+    await expect(page.getByRole('tab', { name: '03 Recover' })).toBeFocused();
+    await expect(page.locator('#demo-command')).toHaveText('git revert <campaign-commit>');
+    await page.getByRole('tab', { name: '03 Recover' }).press('Home');
+    await expect(page.getByRole('tab', { name: '01 Prepare' })).toHaveAttribute(
+      'aria-selected',
+      'true'
+    );
+  });
+
+  test('fits a mobile viewport and navigates to the signup', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/');
+    await expect
+      .poll(() => page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth))
+      .toBe(true);
+    await page.getByRole('link', { name: 'Request early access' }).click();
+    await expect(page.locator('#email')).toBeInViewport();
   });
 });
