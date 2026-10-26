@@ -33,7 +33,21 @@ test.describe('WebGPU rendering', () => {
     page.on('console', (message) => {
       if (message.type() === 'warning' || message.type() === 'error') console.log(message.text());
     });
+    await page.addInitScript(() => {
+      if (!navigator.gpu) return;
+      const requestAdapter = navigator.gpu.requestAdapter.bind(navigator.gpu);
+      const released = new Promise<void>((resolve) =>
+        window.addEventListener('test-release-gpu', () => resolve(), { once: true })
+      );
+      navigator.gpu.requestAdapter = async (options) => {
+        await released;
+        return requestAdapter(options);
+      };
+    });
     await page.goto('/');
+    // A selection made before the adapter resolves must survive initialization.
+    await page.getByRole('tab', { name: '03 Recover' }).click();
+    await page.evaluate(() => window.dispatchEvent(new Event('test-release-gpu')));
     const scene = page.locator('#catalog-scene');
     // Use the application's adapter result. Requesting a second fallback adapter
     // can invalidate the device the scene is already using on Linux.
@@ -59,6 +73,7 @@ test.describe('WebGPU rendering', () => {
       );
       throw error;
     }
+    await expect(scene).toHaveAttribute('data-scene-step', '2');
     const canvas = page.locator('#catalog-canvas');
     const first = await canvas.screenshot();
     await page.waitForTimeout(250);
