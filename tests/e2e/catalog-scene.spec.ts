@@ -34,15 +34,19 @@ test.describe('WebGPU rendering', () => {
       if (message.type() === 'warning' || message.type() === 'error') console.log(message.text());
     });
     await page.goto('/');
-    const available = await page.evaluate(async () => {
-      const adapter = await navigator.gpu?.requestAdapter({ powerPreference: 'low-power' });
-      return !!adapter && !!document.createElement('canvas').getContext('webgpu');
-    });
+    const scene = page.locator('#catalog-scene');
+    // Use the application's adapter result. Requesting a second fallback adapter
+    // can invalidate the device the scene is already using on Linux.
+    await expect(async () => {
+      const state = await scene.getAttribute('data-gpu-state');
+      expect(['requesting-adapter', 'requesting-device', 'compiling']).not.toContain(state);
+    }).toPass({ timeout: 20000 });
+    const state = await scene.getAttribute('data-gpu-state');
+    const hasGpu = await page.evaluate(() => !!navigator.gpu);
     test.skip(
-      !available,
+      !hasGpu || state === 'no-adapter' || state === 'no-canvas-context',
       'This environment cannot present a WebGPU canvas; the fallback is tested separately.'
     );
-    const scene = page.locator('#catalog-scene');
     try {
       await expect(scene).toHaveAttribute('data-renderer', 'webgpu', { timeout: 20000 });
     } catch (error) {
