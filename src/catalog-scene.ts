@@ -32,6 +32,9 @@ export async function initCatalogScene() {
   try {
     const adapter = await navigator.gpu.requestAdapter({ powerPreference: 'low-power' });
     if (!adapter) return;
+    const softwareRenderer =
+      adapter.info.isFallbackAdapter ||
+      /swiftshader|llvmpipe|software/i.test(`${adapter.info.description} ${adapter.info.device}`);
     device = await adapter.requestDevice();
     const gpu = device;
     const context = canvas.getContext('webgpu');
@@ -98,8 +101,15 @@ export async function initCatalogScene() {
         Math.abs(step - targetStep) > 0.005 ||
         Math.abs(currentX - pointerX) > 0.005 ||
         Math.abs(currentY - pointerY) > 0.005;
-      if ((animated || moving || dirty) && (now - lastDraw > 32 || dirty)) {
-        const ratio = Math.min(devicePixelRatio || 1, 1.25, 900 / Math.max(host.clientWidth, 1));
+      if (
+        (animated || moving || dirty) &&
+        (now - lastDraw > (softwareRenderer ? 100 : 32) || dirty)
+      ) {
+        const ratio = Math.min(
+          devicePixelRatio || 1,
+          softwareRenderer ? 0.45 : 1.25,
+          900 / Math.max(host.clientWidth, 1)
+        );
         const width = Math.max(1, Math.round(host.clientWidth * ratio));
         const height = Math.max(1, Math.round(host.clientHeight * ratio));
         if (canvas.width !== width || canvas.height !== height) {
@@ -183,7 +193,8 @@ export async function initCatalogScene() {
         frame = 0;
       } else requestFrame();
     });
-    void gpu.lost.then(() => {
+    void gpu.lost.then((info) => {
+      if (info.reason !== 'destroyed') console.warn('Catalog scene device lost:', info.message);
       resize.disconnect();
       intersection.disconnect();
       theme.disconnect();

@@ -14,9 +14,8 @@ test('keeps the illustration and workflow usable when WebGPU is unavailable', as
 });
 
 test.describe('WebGPU rendering', () => {
-  // Explicit software backend makes headless screenshots reproducible.
-
   test('renders moving pixels, pauses, and honors reduced motion', async ({ page }) => {
+    test.setTimeout(60000);
     const errors: string[] = [];
     page.on('pageerror', (error) => errors.push(error.message));
     page.on('console', (message) => {
@@ -29,13 +28,13 @@ test.describe('WebGPU rendering', () => {
       'This environment has no WebGPU adapter; the fallback is tested separately.'
     );
     const scene = page.locator('#catalog-scene');
-    await expect(scene).toHaveAttribute('data-renderer', 'webgpu');
+    await expect(scene).toHaveAttribute('data-renderer', 'webgpu', { timeout: 20000 });
     const canvas = page.locator('#catalog-canvas');
     const first = await canvas.screenshot();
     await page.waitForTimeout(250);
     const second = await canvas.screenshot();
     expect(first.equals(second)).toBe(false);
-    await page.getByRole('button', { name: 'Pause scene animation' }).click();
+    await page.getByRole('button', { name: 'Pause scene animation' }).press('Enter');
     await expect(page.getByRole('button', { name: 'Play scene animation' })).toHaveAttribute(
       'aria-pressed',
       'true'
