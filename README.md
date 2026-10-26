@@ -30,7 +30,7 @@ npm run test:e2e
 
 `npm run build` type-checks the source and writes the production site to `dist/`. Use `npm run preview` to inspect that build locally.
 
-The browser tests cover signup states using intercepted requests, theme preferences and keyboard navigation, mobile layout, and the catalog illustration. The WebGPU rendering test requires both a GPU adapter and a presentable WebGPU canvas; environments without them exercise the static fallback instead. No real signup is sent by the tests.
+The browser tests cover signup states using intercepted requests, theme preferences and keyboard navigation, mobile layout, and the catalog illustration. The WebGPU rendering test requires both a GPU adapter and a presentable WebGPU canvas; environments without them exercise the static fallback instead. On Linux, run the tests with `xvfb-run -a npm run test:e2e` so Chromium can present the WebGPU canvas. No real signup is sent by the tests.
 
 ## Project layout
 
@@ -50,6 +50,8 @@ Brand name: **GitStore**. Domain names and URLs remain lowercase. Logo SVGs have
 Changes to `main` trigger [Deploy to GitHub Pages](https://github.com/gitstore-dev/gitstore.dev/actions/workflows/deploy.yml). Repository rules require a pull request and the merge queue.
 
 The workflow installs dependencies, builds the site with `VITE_FORMSPREE_FORM_ID` from the `github-pages` environment, runs the browser checks, uploads `dist/`, and deploys through GitHub Pages. The build uses the official Playwright container; keep its version aligned with the Playwright version in `package-lock.json`.
+
+npm downloads are cached by `actions/setup-node` using the lockfile. Chromium and its system dependencies are preinstalled in the pinned Playwright container; there is no separate browser-binary cache.
 
 The production environment is `github-pages`. `public/CNAME` configures `gitstore.dev`, and Vite uses `/` as its base path. Keep HTTPS enabled in the repository's Pages settings.
 
