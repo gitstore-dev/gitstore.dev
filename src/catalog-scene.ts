@@ -26,12 +26,18 @@ export async function initCatalogScene() {
     stopped = true;
     cancelAnimationFrame(frame);
     host.dataset.renderer = 'poster';
+    host.dataset.gpuState = 'stopped';
     motion.hidden = true;
     device?.destroy();
   };
   try {
+    host.dataset.gpuState = 'requesting-adapter';
     const adapter = await navigator.gpu.requestAdapter({ powerPreference: 'low-power' });
-    if (!adapter) return;
+    if (!adapter) {
+      host.dataset.gpuState = 'no-adapter';
+      return;
+    }
+    host.dataset.gpuState = 'requesting-device';
     const softwareRenderer =
       adapter.info.isFallbackAdapter ||
       /swiftshader|llvmpipe|software/i.test(`${adapter.info.description} ${adapter.info.device}`);
@@ -49,12 +55,14 @@ export async function initCatalogScene() {
       stop();
     });
     const module = gpu.createShaderModule({ code: shader });
+    host.dataset.gpuState = 'compiling';
     const pipeline = await gpu.createRenderPipelineAsync({
       layout: 'auto',
       vertex: { module, entryPoint: 'vertex' },
       fragment: { module, entryPoint: 'fragment', targets: [{ format }] },
       primitive: { topology: 'triangle-list' },
     });
+    host.dataset.gpuState = 'ready';
     const buffer = gpu.createBuffer({
       size: 32,
       usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,

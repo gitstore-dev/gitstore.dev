@@ -28,7 +28,18 @@ test.describe('WebGPU rendering', () => {
       'This environment has no WebGPU adapter; the fallback is tested separately.'
     );
     const scene = page.locator('#catalog-scene');
-    await expect(scene).toHaveAttribute('data-renderer', 'webgpu', { timeout: 20000 });
+    try {
+      await expect(scene).toHaveAttribute('data-renderer', 'webgpu', { timeout: 20000 });
+    } catch (error) {
+      console.log(
+        await page.evaluate(() => ({
+          state: document.getElementById('catalog-scene')?.dataset.gpuState,
+          hidden: document.hidden,
+          rect: document.getElementById('catalog-scene')?.getBoundingClientRect().toJSON(),
+        }))
+      );
+      throw error;
+    }
     const canvas = page.locator('#catalog-canvas');
     const first = await canvas.screenshot();
     await page.waitForTimeout(250);
