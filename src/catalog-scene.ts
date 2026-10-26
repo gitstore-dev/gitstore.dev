@@ -22,33 +22,54 @@ export async function initCatalogScene() {
   let currentY = 0;
   let dirty = true;
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-  const stop = () => {
+  const stop = (reason = 'stopped') => {
+    if (stopped) return;
     stopped = true;
     cancelAnimationFrame(frame);
     host.dataset.renderer = 'poster';
+    host.dataset.gpuState = reason;
+    console.warn('Catalog scene stopped:', reason);
     motion.hidden = true;
     device?.destroy();
   };
   try {
+    host.dataset.gpuState = 'requesting-adapter';
     const adapter = await navigator.gpu.requestAdapter({ powerPreference: 'low-power' });
-    if (!adapter) return;
+    if (!adapter) {
+      host.dataset.gpuState = 'no-adapter';
+      return;
+    }
+    host.dataset.gpuState = 'requesting-device';
+    const softwareRenderer =
+      adapter.info.isFallbackAdapter ||
+      /swiftshader|llvmpipe|software/i.test(`${adapter.info.description} ${adapter.info.device}`);
     device = await adapter.requestDevice();
     const gpu = device;
     const context = canvas.getContext('webgpu');
     if (!context) {
-      stop();
+      console.warn('Catalog scene WebGPU canvas unavailable; keeping the static illustration.');
+      stop('no-canvas-context');
       return;
     }
     const format = navigator.gpu.getPreferredCanvasFormat();
     context.configure({ device: gpu, format, alphaMode: 'opaque' });
-    gpu.addEventListener('uncapturederror', stop);
+    gpu.addEventListener('uncapturederror', (event) => {
+      console.warn('Catalog scene GPU error:', event.error.message);
+      stop('gpu-validation-error');
+    });
     const module = gpu.createShaderModule({ code: shader });
+    host.dataset.gpuState = 'compiling';
     const pipeline = await gpu.createRenderPipelineAsync({
       layout: 'auto',
       vertex: { module, entryPoint: 'vertex' },
       fragment: { module, entryPoint: 'fragment', targets: [{ format }] },
       primitive: { topology: 'triangle-list' },
     });
+    host.dataset.gpuState = 'ready';
+    const selected = document.querySelector<HTMLButtonElement>('[data-demo][aria-selected="true"]')
+      ?.dataset.demo;
+    targetStep = selected === 'review' ? 1 : selected === 'recover' ? 2 : 0;
+    step = targetStep;
     const buffer = gpu.createBuffer({
       size: 32,
       usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
@@ -95,8 +116,15 @@ export async function initCatalogScene() {
         Math.abs(step - targetStep) > 0.005 ||
         Math.abs(currentX - pointerX) > 0.005 ||
         Math.abs(currentY - pointerY) > 0.005;
-      if ((animated || moving || dirty) && (now - lastDraw > 32 || dirty)) {
-        const ratio = Math.min(devicePixelRatio || 1, 1.25, 900 / Math.max(host.clientWidth, 1));
+      if (
+        (animated || moving || dirty) &&
+        (now - lastDraw > (softwareRenderer ? 100 : 32) || dirty)
+      ) {
+        const ratio = Math.min(
+          devicePixelRatio || 1,
+          softwareRenderer ? 0.45 : 1.25,
+          900 / Math.max(host.clientWidth, 1)
+        );
         const width = Math.max(1, Math.round(host.clientWidth * ratio));
         const height = Math.max(1, Math.round(host.clientHeight * ratio));
         if (canvas.width !== width || canvas.height !== height) {
@@ -134,6 +162,7 @@ export async function initCatalogScene() {
         pass.end();
         gpu.queue.submit([encoder.finish()]);
         host.dataset.renderer = 'webgpu';
+        host.dataset.sceneStep = String(targetStep);
         dirty = false;
         lastDraw = now;
       }
@@ -180,16 +209,17 @@ export async function initCatalogScene() {
         frame = 0;
       } else requestFrame();
     });
-    void gpu.lost.then(() => {
+    void gpu.lost.then((info) => {
+      console.warn('Catalog scene device lost:', info.reason, info.message);
       resize.disconnect();
       intersection.disconnect();
       theme.disconnect();
-      stop();
+      stop(`device-lost:${info.reason}`);
     });
-    window.addEventListener('pagehide', stop, { once: true });
+    window.addEventListener('pagehide', () => stop('pagehide'), { once: true });
     updateMotion();
   } catch (error) {
     console.warn('Catalog scene unavailable; keeping the static illustration.', error);
-    stop();
+    stop('exception');
   }
 }
