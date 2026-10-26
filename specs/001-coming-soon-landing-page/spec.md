@@ -2,7 +2,9 @@
 
 **Feature Branch**: `001-coming-soon-landing-page`
 **Created**: 2026-03-27
-**Status**: Draft
+**Completed**: 2026-03-28
+**Status**: Deployed
+**URL**: https://gitstore.dev
 **Input**: User description: "Build a one pager website for the OSS project `gitstore-dev/GitStore` hosted on github. The project is currently in the MVP stage, so the page should feature "Coming Soon" with a CTA for early adopters to sign up. The OSS project is an e-commerce engine optimised for git operations with a target audience of AI agents and software engineers. The website will be accessible from https://gitstore.dev"
 
 ## Clarifications
