@@ -22,11 +22,13 @@ export async function initCatalogScene() {
   let currentY = 0;
   let dirty = true;
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-  const stop = () => {
+  const stop = (reason = 'stopped') => {
+    if (stopped) return;
     stopped = true;
     cancelAnimationFrame(frame);
     host.dataset.renderer = 'poster';
-    host.dataset.gpuState = 'stopped';
+    host.dataset.gpuState = reason;
+    console.warn('Catalog scene stopped:', reason);
     motion.hidden = true;
     device?.destroy();
   };
@@ -46,14 +48,14 @@ export async function initCatalogScene() {
     const context = canvas.getContext('webgpu');
     if (!context) {
       console.warn('Catalog scene WebGPU canvas unavailable; keeping the static illustration.');
-      stop();
+      stop('no-canvas-context');
       return;
     }
     const format = navigator.gpu.getPreferredCanvasFormat();
     context.configure({ device: gpu, format, alphaMode: 'opaque' });
     gpu.addEventListener('uncapturederror', (event) => {
       console.warn('Catalog scene GPU error:', event.error.message);
-      stop();
+      stop('gpu-validation-error');
     });
     const module = gpu.createShaderModule({ code: shader });
     host.dataset.gpuState = 'compiling';
@@ -64,6 +66,10 @@ export async function initCatalogScene() {
       primitive: { topology: 'triangle-list' },
     });
     host.dataset.gpuState = 'ready';
+    const selected = document.querySelector<HTMLButtonElement>('[data-demo][aria-selected="true"]')
+      ?.dataset.demo;
+    targetStep = selected === 'review' ? 1 : selected === 'recover' ? 2 : 0;
+    step = targetStep;
     const buffer = gpu.createBuffer({
       size: 32,
       usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
@@ -156,6 +162,7 @@ export async function initCatalogScene() {
         pass.end();
         gpu.queue.submit([encoder.finish()]);
         host.dataset.renderer = 'webgpu';
+        host.dataset.sceneStep = String(targetStep);
         dirty = false;
         lastDraw = now;
       }
@@ -207,12 +214,12 @@ export async function initCatalogScene() {
       resize.disconnect();
       intersection.disconnect();
       theme.disconnect();
-      stop();
+      stop(`device-lost:${info.reason}`);
     });
-    window.addEventListener('pagehide', stop, { once: true });
+    window.addEventListener('pagehide', () => stop('pagehide'), { once: true });
     updateMotion();
   } catch (error) {
     console.warn('Catalog scene unavailable; keeping the static illustration.', error);
-    stop();
+    stop('exception');
   }
 }
