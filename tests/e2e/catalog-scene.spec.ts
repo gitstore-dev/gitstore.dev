@@ -5,7 +5,15 @@ test.use({
   launchOptions: {
     args:
       process.platform === 'linux'
-        ? ['--enable-unsafe-webgpu', '--use-angle=swiftshader', '--enable-unsafe-swiftshader']
+        ? [
+            '--enable-unsafe-webgpu',
+            '--use-angle=swiftshader',
+            '--enable-unsafe-swiftshader',
+            '--enable-gpu',
+            '--enable-features=Vulkan',
+            '--use-vulkan=swiftshader',
+            '--ignore-gpu-blocklist',
+          ]
         : ['--enable-unsafe-webgpu', '--use-angle=swiftshader'],
   },
 });
